@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.UserMealWithExceed;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,8 +25,21 @@ public class UserMealsUtil {
 //        .toLocalTime();
     }
 
-    public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+    public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList,
+                                                                    LocalTime startTime,
+                                                                    LocalTime endTime,
+                                                                    int caloriesPerDay) {
         // TODO return filtered list with correctly exceeded field
-        return null;
+        List<UserMealWithExceed> result = new ArrayList<>();
+        for (UserMeal userMeal : mealList) {
+            if (startTime.isBefore(userMeal.getDateTime().toLocalTime()) && endTime.isAfter(userMeal.getDateTime().toLocalTime())){
+                if (userMeal.getCalories() > caloriesPerDay){
+                    result.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),true));
+                } else {
+                    result.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),false));
+                }
+            }
+        }
+        return result;
     }
 }
