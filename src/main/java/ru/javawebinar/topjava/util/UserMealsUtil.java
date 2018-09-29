@@ -27,15 +27,27 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         List<UserMealWithExceed> result = new ArrayList<>();
-        for (UserMeal userMeal : mealList) {
-            if (startTime.isBefore(userMeal.getDateTime().toLocalTime()) && endTime.isAfter(userMeal.getDateTime().toLocalTime())){
-                if (userMeal.getCalories() > caloriesPerDay){
-                    result.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),true));
-                } else {
-                    result.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),false));
-                }
-            }
-        }
+//        for (UserMeal userMeal : mealList) {
+//            if (startTime.isBefore(userMeal.getDateTime().toLocalTime()) && endTime.isAfter(userMeal.getDateTime().toLocalTime())){
+//                if (userMeal.getCalories() > caloriesPerDay){
+//                    result.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),true));
+//                } else {
+//                    result.add(new UserMealWithExceed(userMeal.getDateTime(),userMeal.getDescription(),userMeal.getCalories(),false));
+//                }
+//            }
+//        }
+
+        mealList.stream()
+                .filter(x -> (startTime.isBefore(x.getDateTime().toLocalTime()) &&
+                        endTime.isAfter(x.getDateTime().toLocalTime())))
+                .forEach(x -> {
+                    if (x.getCalories() > caloriesPerDay) {
+                        result.add(new UserMealWithExceed(x.getDateTime(), x.getDescription(), x.getCalories(), true));
+                    } else {
+                        result.add(new UserMealWithExceed(x.getDateTime(), x.getDescription(), x.getCalories(), false));
+                    }
+                });
+
         return result;
     }
 }
