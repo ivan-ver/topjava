@@ -34,7 +34,10 @@ public class UserMealsUtil {
         return mealList.stream()
                 .filter(x -> (startTime.isBefore(x.getDateTime().toLocalTime()) &&
                         endTime.isAfter(x.getDateTime().toLocalTime())))
-                .map(x -> new UserMealWithExceed(x.getDateTime(), x.getDescription(), x.getCalories(), x.getCalories() > caloriesPerDay))
+                .map(x -> new UserMealWithExceed(x.getDateTime(),
+                        x.getDescription(),
+                        x.getCalories(),
+                        x.getCalories() > caloriesPerDay))
                 .collect(Collectors.toList());
     }
 }
