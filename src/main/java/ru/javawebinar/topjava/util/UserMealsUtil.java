@@ -31,7 +31,7 @@ public class UserMealsUtil {
                                                                     LocalTime endTime,
                                                                     int caloriesPerDay) {
 
-        return mealList.parallelStream()
+        return mealList.stream()
                 .filter(x -> (startTime.isBefore(x.getDateTime().toLocalTime()) &&
                         endTime.isAfter(x.getDateTime().toLocalTime())))
                 .map(x -> x.getCalories() > caloriesPerDay ?
